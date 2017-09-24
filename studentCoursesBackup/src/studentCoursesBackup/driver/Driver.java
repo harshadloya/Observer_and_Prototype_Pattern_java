@@ -1,5 +1,7 @@
 package studentCoursesBackup.driver;
 
+import studentCoursesBackup.util.TreeBuilder;
+
 public class Driver 
 {
 	public static void main(String[] args) 
@@ -17,6 +19,8 @@ public class Driver
 			outputFile1Path	= args[2];
 			outputFile2Path = args[3];
 			outputFile3Path = args[4];
+			
+			TreeBuilder tb = new TreeBuilder(inputFilePath, outputFile1Path);
 		}
 		else
 		{
