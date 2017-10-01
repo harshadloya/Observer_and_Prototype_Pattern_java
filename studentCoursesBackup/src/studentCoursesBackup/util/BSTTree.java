@@ -4,21 +4,60 @@ import studentCoursesBackup.myTree.Node;
 
 public class BSTTree 
 {
-	Node root;
-	
+	private Node root;
+
 	public BSTTree()
 	{
-		root = new Node();
+		root = null;
 	}
-	
-	public Node search(int key)
+
+	public Node search(Node recursionRoot, int bNumber)
 	{
-		return root;
+		if(null == recursionRoot || bNumber == recursionRoot.getbNumber())
+		{
+			return recursionRoot;
+		}
+		
+		if(bNumber < recursionRoot.getbNumber())
+		{
+			return search(recursionRoot.getLeft(), bNumber);
+		}
+		
+		return search(recursionRoot.getRight(), bNumber);
 	}
-	
+
 	public void insert(Node node)
 	{
-		root = node;
+		root = insertRecursive(root, node);
+	}
+
+	public Node insertRecursive(Node rootRecursive, Node node)
+	{
+		if(null == rootRecursive)
+		{
+			rootRecursive = node;
+			return rootRecursive;
+		}
+
+		if(node.getbNumber() < rootRecursive.getbNumber())
+		{
+			rootRecursive.setLeft(insertRecursive(rootRecursive.getLeft(), node));
+		}
+		else if (node.getbNumber() > rootRecursive.getbNumber())
+		{
+			rootRecursive.setRight(insertRecursive(rootRecursive.getRight(), node));
+		}
+		else if (node.getbNumber() == rootRecursive.getbNumber())
+		{
+			rootRecursive = node;
+		}
+		
+		return rootRecursive;
+	}
+
+	public Node getRoot() 
+	{
+		return root;
 	}
 
 }

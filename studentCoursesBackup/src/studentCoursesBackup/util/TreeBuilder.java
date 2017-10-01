@@ -1,7 +1,6 @@
 package studentCoursesBackup.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import studentCoursesBackup.myTree.Node;
@@ -56,14 +55,14 @@ public class TreeBuilder
 			String course = temp[1].trim();
 
 
-			Node node;
+			Node node = null;
 			//HashMap<Integer, String> tempCourses = null;
 			ArrayList<String> tempCourses = null;
 
 			try
 			{
 				//check if node with that bNumber already exists
-				node = tree1.search(bNo);
+				node = tree1.search(tree1.getRoot(), bNo);
 				tempCourses = node.getCourses();
 			}
 			catch(IndexOutOfBoundsException | NullPointerException e)

@@ -7,7 +7,7 @@ public class Node implements SubjectI, ObserverI, Cloneable
 	private int bNumber;
 	private ArrayList<String> courses;
 	//private HashMap<Integer, String> courses;
-	Node left, right;
+	private Node left, right;
 
 	public Node()
 	{
@@ -31,6 +31,22 @@ public class Node implements SubjectI, ObserverI, Cloneable
 
 	public void setCourses(ArrayList<String> courses) {
 		this.courses = courses;
+	}
+	
+	public Node getLeft() {
+		return left;
+	}
+
+	public void setLeft(Node left) {
+		this.left = left;
+	}
+
+	public Node getRight() {
+		return right;
+	}
+
+	public void setRight(Node right) {
+		this.right = right;
 	}
 
 	/*	public HashMap<Integer, String> getCourses() {
