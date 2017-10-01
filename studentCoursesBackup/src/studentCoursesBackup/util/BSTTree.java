@@ -15,7 +15,7 @@ public class BSTTree
 	{
 		if(null == recursionRoot || bNumber == recursionRoot.getbNumber())
 		{
-			return recursionRoot;
+			return new Node(recursionRoot);
 		}
 		
 		if(bNumber < recursionRoot.getbNumber())

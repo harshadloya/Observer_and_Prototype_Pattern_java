@@ -16,36 +16,52 @@ public class Node implements SubjectI, ObserverI, Cloneable
 		//courses = new HashMap<Integer, String>();
 		left = right = null;
 	}
+	
+	public Node(Node node)
+	{
+		bNumber = node.getbNumber();
+		courses = node.getCourses();
+		left = node.getLeft();
+		right = node.getRight();
+	}
 
-	public int getbNumber() {
+	public int getbNumber() 
+	{
 		return bNumber;
 	}
 
-	public void setbNumber(int bNumber) {
+	public void setbNumber(int bNumber) 
+	{
 		this.bNumber = bNumber;
 	}
 
-	public ArrayList<String> getCourses() {
-		return courses;
+	public ArrayList<String> getCourses() 
+	{
+		return new ArrayList<String>(courses);
 	}
 
-	public void setCourses(ArrayList<String> courses) {
+	public void setCourses(ArrayList<String> courses) 
+	{
 		this.courses = courses;
 	}
 	
-	public Node getLeft() {
+	public Node getLeft() 
+	{
 		return left;
 	}
 
-	public void setLeft(Node left) {
+	public void setLeft(Node left) 
+	{
 		this.left = left;
 	}
 
-	public Node getRight() {
+	public Node getRight() 
+	{
 		return right;
 	}
 
-	public void setRight(Node right) {
+	public void setRight(Node right) 
+	{
 		this.right = right;
 	}
 
@@ -84,6 +100,4 @@ public class Node implements SubjectI, ObserverI, Cloneable
 	{
 		return super.clone();
 	}
-
-
 }
