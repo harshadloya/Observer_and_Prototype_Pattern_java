@@ -9,24 +9,39 @@ public class TreeBuilder
 {
 	private FileProcessor fileProcessor;
 	//private HashMap<Integer, Node> tree;
-	private BSTTree tree1;
+	//private BSTTree tree1;
+	private RedBlackTree tree1;
+	private String inputFile;
+	private String deleteFile;
+	private String output1File;
+	private String output2File;
+	private String output3File;
 
 	public TreeBuilder()
 	{
 		//tree = new HashMap<Integer, Node>();
-		tree1 = new BSTTree();
+		//tree1 = new BSTTree();
+		tree1 = new RedBlackTree();
 	}
 
-	public TreeBuilder(String inputFilePath, String outputFile1Path, String outputFile2Path, String outputFile3Path)
+	public TreeBuilder(String inputFilePath, String deleteFilePath, String outputFile1Path, String outputFile2Path, String outputFile3Path)
 	{
 		this();
 		fileProcessor = new FileProcessor(inputFilePath);
-
+		inputFile = inputFilePath;
+		deleteFile = deleteFilePath;
+		output1File = outputFile1Path;
+		output2File = outputFile2Path;
+		output3File = outputFile3Path;		
+	}
+	
+	public void createTree()
+	{
 		String line = "";
 		String temp[];
 
 
-		while((line = fileProcessor.readLine(inputFilePath)) != null)
+		while((line = fileProcessor.readLine(inputFile)) != null)
 		{
 			boolean bNumberCheck = false;
 			boolean courseCheck = false;
@@ -89,7 +104,6 @@ public class TreeBuilder
 			}
 			else
 			{
-				//ideally should never execute - but just a safety precaution
 				tempCourses = new ArrayList<String>();
 			}
 			

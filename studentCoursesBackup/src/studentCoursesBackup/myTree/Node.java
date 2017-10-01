@@ -2,12 +2,15 @@ package studentCoursesBackup.myTree;
 
 import java.util.ArrayList;
 
-public class Node implements SubjectI, ObserverI, Cloneable
+import studentCoursesBackup.util.RedBlackTreeContantsIfc;
+
+public class Node implements SubjectI, ObserverI, Cloneable, RedBlackTreeContantsIfc
 {
 	private int bNumber;
 	private ArrayList<String> courses;
 	//private HashMap<Integer, String> courses;
 	private Node left, right;
+	private int color;
 
 	public Node()
 	{
@@ -15,6 +18,7 @@ public class Node implements SubjectI, ObserverI, Cloneable
 		courses = new ArrayList<String>();
 		//courses = new HashMap<Integer, String>();
 		left = right = null;
+		color = RED;
 	}
 	
 	public Node(Node node)
@@ -23,6 +27,7 @@ public class Node implements SubjectI, ObserverI, Cloneable
 		courses = node.getCourses();
 		left = node.getLeft();
 		right = node.getRight();
+		color = node.getColor();
 	}
 
 	public int getbNumber() 
@@ -63,6 +68,14 @@ public class Node implements SubjectI, ObserverI, Cloneable
 	public void setRight(Node right) 
 	{
 		this.right = right;
+	}
+
+	public int getColor() {
+		return color;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
 	}
 
 	/*	public HashMap<Integer, String> getCourses() {

@@ -20,7 +20,8 @@ public class Driver
 			outputFile2Path = args[3];
 			outputFile3Path = args[4];
 			
-			TreeBuilder tb = new TreeBuilder(inputFilePath, outputFile1Path, outputFile2Path, outputFile3Path);
+			TreeBuilder buildTree = new TreeBuilder(inputFilePath, deleteFilePath, outputFile1Path, outputFile2Path, outputFile3Path);
+			buildTree.createTree();
 		}
 		else
 		{
