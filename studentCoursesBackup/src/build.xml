@@ -1,62 +1,62 @@
-<project name="myArrayList" default="compile_all" basedir="..">
+<project name="studentCoursesBackup" default="compile_all" basedir="..">
 
-  <property name="BUILD.compiler"       value="modern"/>
-  <property name="src"                  value="src"/>
-  <property name="BUILD"                value="src/BUILD"/>
-  <property name="classes"              value="${BUILD}/classes"/>
-
-
-  <target name="all" depends="compile_all"/>
-
-  <target name="compile_all"
-          depends="myArrayList"/>
-
-  <target name="clean">
-       <delete dir="${BUILD}"/>
-  </target>
-
-  <!-- Prepare target directories -->
-  <target name="prepare">
-        <mkdir dir="${BUILD}"/>
-        <mkdir dir="${classes}"/>
-  </target>
+	<property name="BUILD.compiler"       value="modern"/>
+	<property name="src"                  value="src"/>
+	<property name="BUILD"                value="src/BUILD"/>
+	<property name="classes"              value="${BUILD}/classes"/>
 
 
- <target name="jar" depends="all">
-        <mkdir dir="${BUILD}/jar"/>
-        <jar destfile="${BUILD}/jar/myArrayList.jar" basedir="${BUILD}/classes">
-            <manifest>
-                <attribute name="Main-Class" value="myArrayList.driver.Driver"/>
-            </manifest>
-        </jar>
-    </target>
+	<target name="all" depends="compile_all"/>
+
+	<target name="compile_all"
+          depends="studentCoursesBackup"/>
+
+	<target name="clean">
+		<delete dir="${BUILD}"/>
+	</target>
+
+	<!-- Prepare target directories -->
+	<target name="prepare">
+		<mkdir dir="${BUILD}"/>
+		<mkdir dir="${classes}"/>
+	</target>
+
+
+	<target name="jar" depends="all">
+		<mkdir dir="${BUILD}/jar"/>
+		<jar destfile="${BUILD}/jar/studentCoursesBackup.jar" basedir="${BUILD}/classes">
+			<manifest>
+				<attribute name="Main-Class" value="studentCoursesBackup.driver.Driver"/>
+			</manifest>
+		</jar>
+	</target>
 
 
 
-  <!-- ** means all subdirectories as well -->
-  <!-- * means all files in the current directory -->
-  <!-- for just java files use *.java -->
+	<!-- ** means all subdirectories as well -->
+	<!-- * means all files in the current directory -->
+	<!-- for just java files use *.java -->
 
-  <target name="myArrayList" depends="prepare">
-    <javac srcdir="${src}"
-           includes="myArrayList/**"
+	<target name="studentCoursesBackup" depends="prepare">
+		<javac srcdir="${src}"
+           includes="studentCoursesBackup/**"
            excludes="**/package.html"
            destdir="${classes}"
            classpath="${classes}"
            debug="on"
            optimize="on"
            deprecation="off"/>
-  </target>
+	</target>
 
 
-<target name="run" depends="jar">
-        <java jar="${BUILD}/jar/myArrayList.jar" fork="true">
-		<arg value="${arg0}"/>
-		<arg value="${arg1}"/>
-		<jvmarg value="-ea"/>
-        </java>
-	
-    </target>
-
+	<target name="run" depends="jar">
+		<java jar="${BUILD}/jar/studentCoursesBackup.jar" fork="true">
+			<arg value="${arg0}"/>
+			<arg value="${arg1}"/>
+			<arg value="${arg2}"/>
+			<arg value="${arg3}"/>
+			<arg value="${arg4}"/>
+		</java>
+	</target>
 
 </project>
