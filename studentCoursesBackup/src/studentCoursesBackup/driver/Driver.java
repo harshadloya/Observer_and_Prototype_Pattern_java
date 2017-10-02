@@ -22,6 +22,7 @@ public class Driver
 			
 			TreeBuilder buildTree = new TreeBuilder(inputFilePath, deleteFilePath, outputFile1Path, outputFile2Path, outputFile3Path);
 			buildTree.createTree();
+			buildTree.delete();
 		}
 		else
 		{

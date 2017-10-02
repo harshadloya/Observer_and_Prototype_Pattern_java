@@ -49,7 +49,7 @@ public class BSTTree
 		}
 		else if (node.getbNumber() == rootRecursive.getbNumber())
 		{
-			rootRecursive = node;
+			rootRecursive.setCourses(node.getCourses());
 		}
 		
 		return rootRecursive;

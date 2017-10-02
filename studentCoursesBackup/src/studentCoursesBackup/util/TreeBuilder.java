@@ -8,9 +8,10 @@ import studentCoursesBackup.myTree.Node;
 public class TreeBuilder 
 {
 	private FileProcessor fileProcessor;
-	//private HashMap<Integer, Node> tree;
 	//private BSTTree tree1;
-	private RedBlackTree tree1;
+	private RedBlackTree tree_orig;
+	private RedBlackTree backup_Tree_1;
+	private RedBlackTree backup_Tree_2;
 	private String inputFile;
 	private String deleteFile;
 	private String output1File;
@@ -19,15 +20,15 @@ public class TreeBuilder
 
 	public TreeBuilder()
 	{
-		//tree = new HashMap<Integer, Node>();
 		//tree1 = new BSTTree();
-		tree1 = new RedBlackTree();
+		tree_orig = new RedBlackTree();
+		backup_Tree_1 = new RedBlackTree();
+		backup_Tree_2 = new RedBlackTree();
 	}
 
 	public TreeBuilder(String inputFilePath, String deleteFilePath, String outputFile1Path, String outputFile2Path, String outputFile3Path)
 	{
 		this();
-		fileProcessor = new FileProcessor(inputFilePath);
 		inputFile = inputFilePath;
 		deleteFile = deleteFilePath;
 		output1File = outputFile1Path;
@@ -39,6 +40,7 @@ public class TreeBuilder
 	{
 		String line = "";
 		String temp[];
+		fileProcessor = new FileProcessor(inputFile);
 
 
 		while((line = fileProcessor.readLine(inputFile)) != null)
@@ -70,29 +72,29 @@ public class TreeBuilder
 			String course = temp[1].trim();
 
 
-			Node node = null;
-			//HashMap<Integer, String> tempCourses = null;
+			Node node_orig = null;
+			Node backup_Node_1 = null;
+			Node backup_Node_2 = null;
 			ArrayList<String> tempCourses = null;
 
 			try
 			{
 				//check if node with that bNumber already exists
-				node = tree1.search(tree1.getRoot(), bNo);
-				tempCourses = node.getCourses();
+				node_orig = tree_orig.search(tree_orig.getRoot(), bNo);
+				tempCourses = node_orig.getCourses();
 			}
 			catch(IndexOutOfBoundsException | NullPointerException e)
 			{
 				//else create a new node
-				node = new Node();
+				node_orig = new Node();
 				tempCourses = new ArrayList<String>();
-				//tempCourses = new HashMap<Integer, String>();
 			}
 			
-			node.setbNumber(bNo);
+			node_orig.setbNumber(bNo);
 
 			if(null != tempCourses && !tempCourses.isEmpty())
 			{
-				Iterator arrayListIter = tempCourses.iterator();
+				Iterator<String> arrayListIter = tempCourses.iterator();
 				while(arrayListIter.hasNext())
 				{
 					if(arrayListIter.next().toString().compareTo(course)==0)
@@ -113,10 +115,105 @@ public class TreeBuilder
 			}
 			
 			tempCourses.add(course);
-			node.setCourses(tempCourses);
+			node_orig.setCourses(tempCourses);
+			try
+			{
+				if(node_orig instanceof Cloneable)
+				{
+					if(null != node_orig.getObservers() && !node_orig.getObservers().isEmpty())
+					{
+						node_orig.removeAllObservers();
+					}
+						
+					backup_Node_1 = node_orig.clone();
+					backup_Node_2 = node_orig.clone();
+					
+					node_orig.registerObserver(backup_Node_1);
+					node_orig.registerObserver(backup_Node_2);
+				}
+			}
+			catch(CloneNotSupportedException ce)
+			{
+				System.err.println("Cloning not supported, please check if the class implements Cloneable");
+				ce.printStackTrace();
+				System.exit(0);
+			}
 
-			//tree.put(bNo, node);
-			tree1.insert(node);
+			tree_orig.insert(node_orig);
+			backup_Tree_1.insert(backup_Node_1);
+			backup_Tree_2.insert(backup_Node_2);
+		}
+
+		//close the open file in the end of reading
+		fileProcessor.closeFile();
+	}
+	
+	public void delete()
+	{
+		String line = "";
+		String temp[];
+		fileProcessor = new FileProcessor(deleteFile);
+
+		while((line = fileProcessor.readLine(deleteFile)) != null)
+		{
+			boolean bNumberCheck = false;
+			boolean courseCheck = false;
+
+			//remove leading or trailing whitespaces if any
+			line = line.trim();
+			temp = line.split(":");
+
+			//checking the input bNumber
+			bNumberCheck = validateBNumber(temp[0].trim());
+
+			if(!bNumberCheck)
+			{
+				continue;
+			}
+			int bNo = Integer.parseInt(temp[0].trim());
+
+			//checking the input course
+			courseCheck = validateCourse(temp[1].trim());
+
+			if(!courseCheck)
+			{
+				continue;
+			}
+			String course = temp[1].trim();
+
+
+			Node node_orig = null;
+			ArrayList<String> tempCourses = null;
+
+			try
+			{
+				//find node with that bNumber from the tree
+				node_orig = tree_orig.search(tree_orig.getRoot(), bNo);
+				tempCourses = node_orig.getCourses();
+			}
+			catch(IndexOutOfBoundsException | NullPointerException e)
+			{
+				System.err.println("Course to Delete does not exists in the Node of the Tree");
+				e.printStackTrace();
+				continue;
+			}
+			
+			if(null != tempCourses && !tempCourses.isEmpty())
+			{
+				Iterator<String> arrayListIter = tempCourses.iterator();
+				while(arrayListIter.hasNext())
+				{
+					if(arrayListIter.next().toString().compareTo(course)==0)
+					{
+						tempCourses.remove(course);
+						node_orig.setCourses(tempCourses);
+						tree_orig.insert(node_orig);
+						
+						node_orig.notifyObservers();
+						break;
+					}
+				}
+			}
 		}
 
 		//close the open file in the end of reading

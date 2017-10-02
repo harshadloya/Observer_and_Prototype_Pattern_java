@@ -8,17 +8,17 @@ public class Node implements SubjectI, ObserverI, Cloneable, RedBlackTreeContant
 {
 	private int bNumber;
 	private ArrayList<String> courses;
-	//private HashMap<Integer, String> courses;
 	private Node left, right;
 	private int color;
+	private ArrayList<Node> observers;
 
 	public Node()
 	{
 		bNumber = 0;
 		courses = new ArrayList<String>();
-		//courses = new HashMap<Integer, String>();
 		left = right = null;
 		color = RED;
+		observers = new ArrayList<Node>();
 	}
 	
 	public Node(Node node)
@@ -28,6 +28,7 @@ public class Node implements SubjectI, ObserverI, Cloneable, RedBlackTreeContant
 		left = node.getLeft();
 		right = node.getRight();
 		color = node.getColor();
+		observers = node.getObservers();
 	}
 
 	public int getbNumber() 
@@ -77,40 +78,71 @@ public class Node implements SubjectI, ObserverI, Cloneable, RedBlackTreeContant
 	public void setColor(int color) {
 		this.color = color;
 	}
-
-	/*	public HashMap<Integer, String> getCourses() {
-		return courses;
+	
+	public ArrayList<Node> getObservers() {
+		return observers;
 	}
 
-	public void setCourses(HashMap<Integer, String> courses) {
-		this.courses = courses;
-	}
-	 */
 	//Observer Method
 	@Override
 	public void update(Object updateValues) 
 	{
+		setCourses((ArrayList<String>) updateValues);
 	}
 
 	//Subject Methods
 	@Override
-	public void registerObserver(ObserverI o) 
+	public void registerObserver(Node obsNode) 
 	{
+		observers.add(obsNode);
 	}
 
 	@Override
-	public void removeObserver(ObserverI o) 
+	public void removeObserver(Node obsNode) 
 	{
+		observers.remove(obsNode);
+	}
+	
+	public void removeAllObservers() 
+	{
+		observers.clear();
 	}
 
 	@Override
 	public void notifyObservers() 
-	{	
+	{
+		for (Node obsNode : observers)
+		{
+			obsNode.update(getCourses());
+		}
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException 
+	public Node clone() throws CloneNotSupportedException
 	{
-		return super.clone();
+		Node clone =  (Node) super.clone();
+		clone.bNumber = new Integer(bNumber);
+		if(null != left)
+		{
+			clone.left = new Node(left);
+		}
+		else
+		{
+			clone.left = null;
+		}
+		
+		if(null != right)
+		{
+			clone.right = new Node(right);
+		}
+		else
+		{
+			clone.right = null;
+		}
+		
+		clone.color = new Integer(color);
+		clone.courses = new ArrayList<String>(courses);
+		clone.observers = new ArrayList<Node>(observers);
+		return clone;
 	}
 }
