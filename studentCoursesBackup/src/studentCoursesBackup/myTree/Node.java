@@ -84,6 +84,7 @@ public class Node implements SubjectI, ObserverI, Cloneable, RedBlackTreeContant
 	}
 
 	//Observer Method
+	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Object updateValues) 
 	{

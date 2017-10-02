@@ -120,16 +120,15 @@ public class TreeBuilder
 			{
 				if(node_orig instanceof Cloneable)
 				{
-					if(null != node_orig.getObservers() && !node_orig.getObservers().isEmpty())
-					{
-						node_orig.removeAllObservers();
-					}
-						
 					backup_Node_1 = node_orig.clone();
 					backup_Node_2 = node_orig.clone();
 					
-					node_orig.registerObserver(backup_Node_1);
-					node_orig.registerObserver(backup_Node_2);
+					if(null == node_orig.getObservers() || node_orig.getObservers().isEmpty())
+					{
+						node_orig.registerObserver(backup_Node_1);
+						node_orig.registerObserver(backup_Node_2);
+					}
+					
 				}
 			}
 			catch(CloneNotSupportedException ce)
