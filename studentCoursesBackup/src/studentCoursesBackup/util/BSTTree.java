@@ -59,5 +59,15 @@ public class BSTTree
 	{
 		return root;
 	}
+	
+	public void printNodes(Results r, Node root, int fileNumber)
+	{
+		if(root != null)
+		{
+			printNodes(r, root.getLeft(), fileNumber);
+			r.writeToFile(root.toString(), fileNumber);
+			printNodes(r, root.getRight(), fileNumber);
+		}
+	}
 
 }

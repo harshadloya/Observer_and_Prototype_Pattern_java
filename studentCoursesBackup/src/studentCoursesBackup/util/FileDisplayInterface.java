@@ -2,5 +2,5 @@ package studentCoursesBackup.util;
 
 public interface FileDisplayInterface 
 {
-	public void writeToFile();
+	public void writeToFile(String s, int fileNumber);
 }

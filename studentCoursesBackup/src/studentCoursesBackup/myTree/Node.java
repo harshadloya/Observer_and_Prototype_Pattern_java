@@ -146,4 +146,11 @@ public class Node implements SubjectI, ObserverI, Cloneable, RedBlackTreeContant
 		clone.observers = new ArrayList<Node>(observers);
 		return clone;
 	}
+
+	@Override
+	public String toString() {
+		return "Node : bNumber = " + bNumber + ", courses = " + courses;
+	}
+	
+	
 }

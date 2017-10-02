@@ -218,7 +218,14 @@ public class TreeBuilder
 		//close the open file in the end of reading
 		fileProcessor.closeFile();
 	}
-
+	
+	public void print()
+	{
+		tree_orig.printNodes(new Results(output1File), tree_orig.getRoot(), 1);
+		backup_Tree_1.printNodes(new Results(output2File), backup_Tree_1.getRoot(), 2);
+		backup_Tree_2.printNodes(new Results(output3File), backup_Tree_2.getRoot(), 3);
+	}
+	
 	private boolean validateBNumber(String bNo) 
 	{
 		if(bNo.matches("[0-9][0-9][0-9][1-9]"))

@@ -1,0 +1,3 @@
+Node : bNumber = 1234, courses = [D, E]
+Node : bNumber = 2345, courses = [F]
+Node : bNumber = 3425, courses = []

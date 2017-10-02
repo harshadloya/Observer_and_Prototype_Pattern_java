@@ -7,13 +7,11 @@ import java.io.IOException;
 public class Results implements FileDisplayInterface, StdoutDisplayInterface
 {
 	
-	private String[] resultSetStrings;
 	private String outputFilePath;
 	
 	public Results() 
 	{
 		super();
-		setResultSetStrings(new String[11]);
 	}
 	
 	public Results(String outputPath)
@@ -29,12 +27,12 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 	}
 
 	@Override
-	public void writeToFile() 
+	public void writeToFile(String s, int fileNumber) 
 	{
 		try 
 		{
 			String path = getOutputFilePath();
-			String[] temp = path.split("output.tx");
+			String[] temp = path.split("output"+ fileNumber +".tx");
 			
 			File file = new File(temp[0]);
 			boolean check = file.mkdirs();
@@ -42,11 +40,8 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 			if(check == true || file.exists())
 			{
 				FileWriter writer = new FileWriter(path, true);
-				for(int i = 0; i < getResultSetStrings().length; i++)
-				{
-					if(getResultSetStrings()[i] != null)
-						writer.write(getResultSetStrings()[i]);
-				}
+				
+				writer.write(s+"\n");
 				writer.flush();
 				writer.close();
 			}
@@ -61,30 +56,6 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 			e.printStackTrace();
 		}
 		
-	}
-	
-	public void storeNewResult(String s)
-	{
-		String temp[] = getResultSetStrings();
-		
-		for(int i = 0; i < temp.length; i++)
-		{
-			if (temp[i]==null)
-			{
-				temp[i] = s;
-				break;
-			}
-		}
-		
-		setResultSetStrings(temp);
-	}
-
-	public String[] getResultSetStrings() {
-		return resultSetStrings;
-	}
-
-	public void setResultSetStrings(String[] resultSetStrings) {
-		this.resultSetStrings = resultSetStrings;
 	}
 
 	public String getOutputFilePath() {
