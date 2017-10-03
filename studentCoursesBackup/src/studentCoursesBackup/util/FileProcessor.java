@@ -6,12 +6,24 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Class that provides functionality of reading line by line from some file
+ * @author hloya
+ *
+ */
 public class FileProcessor 
 {
 
+	/**
+	 * Data Members
+	 */
 	FileReader isr;
 	BufferedReader br;
 
+	/**
+	 * Parameterized constructor that initializes the reader to read the specified file
+	 * @param filePath - contains the path of the file that needs to be read
+	 */
 	public FileProcessor(String filePath)
 	{
 		try
@@ -27,7 +39,11 @@ public class FileProcessor
 	}
 	
 
-	//returns 1 line from the file whose path is specified by filePath on each call to the method
+	/**
+	 * Method that reads 1 line at a time from the input file
+	 * @param filePath - contains the path of the file from which a line needs to be read
+	 * @return a line from the input file as String
+	 */
 	public String readLine(String filePath)
 	{
 		String oneLineFromFile = "";
@@ -46,6 +62,9 @@ public class FileProcessor
 	
 	
 	//Closes the file opened for reading
+	/**
+	 * Method to close the file opened for Reading
+	 */
 	public void closeFile()
 	{
 		try
@@ -59,9 +78,10 @@ public class FileProcessor
 		}
 	}
 
-	/*
+	/**
 	 * Testing purpose
-	 
+	 */
+	/*
 	public static void main(String args[]) throws FileNotFoundException
 	{
 		String filePath = ".\\input.txt";
@@ -74,5 +94,4 @@ public class FileProcessor
 		}
 	}
 	*/
-
 }

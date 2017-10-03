@@ -2,8 +2,17 @@ package studentCoursesBackup.driver;
 
 import studentCoursesBackup.util.TreeBuilder;
 
+/**
+ * Class containing the main method which is the starting point of code execution
+ * @author hloya
+ *
+ */
 public class Driver 
 {
+	/**
+	 * Main method responsible for creating the tree and then calling the delete function
+	 * @param args - Input given from command line which contains location of Input file, Delete file, and the Output Files for the 3 trees
+	 */
 	public static void main(String[] args) 
 	{
 		String inputFilePath = "";
