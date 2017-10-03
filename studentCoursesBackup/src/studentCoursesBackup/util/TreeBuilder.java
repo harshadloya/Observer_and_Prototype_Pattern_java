@@ -16,42 +16,42 @@ public class TreeBuilder
 	 * Data member that is used for reading from a file
 	 */
 	private FileProcessor fileProcessor;
-	
+
 	/**
 	 * Data member that holds the original tree
 	 */
 	private RedBlackTree tree_orig;
-	
+
 	/**
 	 * Data member that holds the backup tree 1
 	 */
 	private RedBlackTree backup_Tree_1;
-	
+
 	/**
 	 * Data member that holds the backup tree 2
 	 */
 	private RedBlackTree backup_Tree_2;
-	
+
 	/**
 	 * Data member that holds the path of input file
 	 */
 	private String inputFile;
-	
+
 	/**
 	 * Data member that holds the path of delete file
 	 */
 	private String deleteFile;
-	
+
 	/**
 	 * Data member that holds the path of output file 1
 	 */
 	private String output1File;
-	
+
 	/**
 	 * Data member that holds the path of output file 2
 	 */
 	private String output2File;
-	
+
 	/**
 	 * Data member that holds the path of output file 3
 	 */
@@ -84,7 +84,7 @@ public class TreeBuilder
 		output2File = outputFile2Path;
 		output3File = outputFile3Path;		
 	}
-	
+
 	/**
 	 * Method that reads the bNumber and Course Names from the input file one at a time, validates it and creates a node for them, if one already doesn't exists in the tree for that bNumber.
 	 * <br>
@@ -113,24 +113,9 @@ public class TreeBuilder
 			line = line.trim();
 			temp = line.split(":");
 
-			//checking the input bNumber
-			bNumberCheck = validateBNumber(temp[0].trim());
-
-			if(!bNumberCheck)
-			{
-				continue;
-			}
-			int bNo = Integer.parseInt(temp[0].trim());
-
-			//checking the input course
-			courseCheck = validateCourse(temp[1].trim());
-
-			if(!courseCheck)
-			{
-				continue;
-			}
-			String course = temp[1].trim();
-
+			
+			int bNo = 0;
+			String course = "";
 
 			Node node_orig = null;
 			Node backup_Node_1 = null;
@@ -139,9 +124,32 @@ public class TreeBuilder
 
 			try
 			{
+				//checking the input bNumber
+				bNumberCheck = validateBNumber(temp[0].trim());
+
+				if(!bNumberCheck)
+				{
+					continue;
+				}
+				bNo = Integer.parseInt(temp[0].trim());
+
+				//checking the input course
+				courseCheck = validateCourse(temp[1].trim());
+
+
+				if(!courseCheck)
+				{
+					continue;
+				}
+				course = temp[1].trim();
+
 				//check if node with that bNumber already exists
 				node_orig = tree_orig.search(tree_orig.getRoot(), bNo);
 				tempCourses = node_orig.getCourses();
+			}
+			catch (ArrayIndexOutOfBoundsException e) 
+			{
+				continue;
 			}
 			catch(IndexOutOfBoundsException | NullPointerException e)
 			{
@@ -149,7 +157,7 @@ public class TreeBuilder
 				node_orig = new Node();
 				tempCourses = new ArrayList<String>();
 			}
-			
+
 			node_orig.setbNumber(bNo);
 
 			if(null != tempCourses && !tempCourses.isEmpty())
@@ -168,12 +176,12 @@ public class TreeBuilder
 			{
 				tempCourses = new ArrayList<String>();
 			}
-			
+
 			if(courseAlreadyExists)
 			{
 				continue;
 			}
-			
+
 			tempCourses.add(course);
 			node_orig.setCourses(tempCourses);
 			try
@@ -182,14 +190,14 @@ public class TreeBuilder
 				{
 					backup_Node_1 = node_orig.clone();
 					backup_Node_2 = node_orig.clone();
-					
+
 					//add observers only if original node has no observers
 					if(null == node_orig.getObservers() || node_orig.getObservers().isEmpty())
 					{
 						node_orig.registerObserver(backup_Node_1);
 						node_orig.registerObserver(backup_Node_2);
 					}
-					
+
 				}
 			}
 			catch(CloneNotSupportedException ce)
@@ -207,7 +215,7 @@ public class TreeBuilder
 		//close the open file in the end of reading
 		fileProcessor.closeFile();
 	}
-	
+
 	/**
 	 * Method that reads the bNumber and Course Names from the delete file one at a time, validates it and deletes the respective course for that node from the original tree.
 	 * <br>
@@ -230,33 +238,38 @@ public class TreeBuilder
 			line = line.trim();
 			temp = line.split(":");
 
-			//checking the input bNumber
-			bNumberCheck = validateBNumber(temp[0].trim());
-
-			if(!bNumberCheck)
-			{
-				continue;
-			}
-			int bNo = Integer.parseInt(temp[0].trim());
-
-			//checking the input course
-			courseCheck = validateCourse(temp[1].trim());
-
-			if(!courseCheck)
-			{
-				continue;
-			}
-			String course = temp[1].trim();
-
-
 			Node node_orig = null;
 			ArrayList<String> tempCourses = null;
+			int bNo = 0;
+			String course = "";
 
 			try
 			{
+				//checking the input bNumber
+				bNumberCheck = validateBNumber(temp[0].trim());
+
+				if(!bNumberCheck)
+				{
+					continue;
+				}
+				bNo = Integer.parseInt(temp[0].trim());
+
+				//checking the input course
+				courseCheck = validateCourse(temp[1].trim());
+
+				if(!courseCheck)
+				{
+					continue;
+				}
+				course = temp[1].trim();
+
 				//find node with that bNumber from the tree
 				node_orig = tree_orig.search(tree_orig.getRoot(), bNo);
 				tempCourses = node_orig.getCourses();
+			}
+			catch (ArrayIndexOutOfBoundsException e) 
+			{
+				continue;
 			}
 			catch(IndexOutOfBoundsException | NullPointerException e)
 			{
@@ -264,7 +277,7 @@ public class TreeBuilder
 				e.printStackTrace();
 				continue;
 			}
-			
+
 			if(null != tempCourses && !tempCourses.isEmpty())
 			{
 				Iterator<String> arrayListIter = tempCourses.iterator();
@@ -275,7 +288,7 @@ public class TreeBuilder
 						tempCourses.remove(course);
 						node_orig.setCourses(tempCourses);
 						tree_orig.insert(node_orig);
-						
+
 						node_orig.notifyObservers();
 						break;
 					}
@@ -286,7 +299,7 @@ public class TreeBuilder
 		//close the open file in the end of reading
 		fileProcessor.closeFile();
 	}
-	
+
 	/**
 	 * This method 
 	 * <br>
@@ -298,16 +311,16 @@ public class TreeBuilder
 		Results tree_orig_result = new Results(output1File);
 		tree_orig.printNodes(tree_orig_result, tree_orig.getRoot());
 		tree_orig_result.writeToFile(1);
-		
+
 		Results backup_Tree_1_result = new Results(output2File);
 		backup_Tree_1.printNodes(backup_Tree_1_result, backup_Tree_1.getRoot());
 		backup_Tree_1_result.writeToFile(2);
-		
+
 		Results backup_Tree_2_result = new Results(output3File);
 		backup_Tree_2.printNodes(backup_Tree_2_result, backup_Tree_2.getRoot());
 		backup_Tree_2_result.writeToFile(3);
 	}
-	
+
 	/**
 	 * Method used to check if bNumber read from file is proper 4 digit number.
 	 * @param bNo - a string value that contains the bNumber read from the input/delete file.
