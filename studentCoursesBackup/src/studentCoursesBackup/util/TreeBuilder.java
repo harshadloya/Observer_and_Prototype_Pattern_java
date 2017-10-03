@@ -136,7 +136,6 @@ public class TreeBuilder
 				//checking the input course
 				courseCheck = validateCourse(temp[1].trim());
 
-
 				if(!courseCheck)
 				{
 					continue;

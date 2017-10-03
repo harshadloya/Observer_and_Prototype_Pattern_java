@@ -65,10 +65,22 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 			
 			File file = new File(temp[0]);
 			boolean check = file.mkdirs();
+			File outputFile = new File(path);
+			boolean checkFileAlreadyExists = false;
 			
 			if(check == true || file.exists())
 			{
+				if(outputFile.exists())
+				{
+					checkFileAlreadyExists = true;
+				}
+				
 				FileWriter writer = new FileWriter(path, true);
+				if(checkFileAlreadyExists)
+				{
+					writer.write("\n\n");
+					checkFileAlreadyExists = false;
+				}
 				
 				for(int i = 0; i < resultSetStrings.size()-1; i++)
 				{
