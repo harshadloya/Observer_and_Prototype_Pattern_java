@@ -272,8 +272,8 @@ public class TreeBuilder
 			}
 			catch(IndexOutOfBoundsException | NullPointerException e)
 			{
-				System.err.println("Course to Delete does not exists in the Node of the Tree");
-				e.printStackTrace();
+				//System.err.println("Course to Delete does not exists in the Node of the Tree");
+				//e.printStackTrace();
 				continue;
 			}
 
