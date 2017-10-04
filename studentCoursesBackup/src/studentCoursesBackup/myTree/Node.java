@@ -179,7 +179,7 @@ public class Node implements SubjectI, ObserverI, Cloneable, RedBlackTreeContant
 	@Override
 	public Node clone() throws CloneNotSupportedException
 	{
-		Node clone =  (Node) super.clone();
+		Node clone =  new Node();
 		clone.bNumber = new Integer(bNumber);
 		if(null != left)
 		{
